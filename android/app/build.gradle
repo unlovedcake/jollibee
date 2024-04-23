@@ -22,6 +22,11 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def geoApiKey = localProperties.getProperty('geo.apiKey') 
+if (geoApiKey == null) {
+    geoApiKey = '1.0'
+}
+
 android {
     namespace "com.jollibee"
     compileSdk flutter.compileSdkVersion
@@ -37,11 +42,12 @@ android {
         applicationId "com.jollibee"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
+        manifestPlaceholders += [geoApiKey: geoApiKey]
     }
 
     buildTypes {

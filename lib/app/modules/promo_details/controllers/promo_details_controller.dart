@@ -5,6 +5,7 @@ import 'package:jollibee/app/models/product_promos_model.dart';
 import 'package:jollibee/app/repositories/promo_repository.dart';
 
 import '../../../global_variable/global_variable.dart';
+import '../../../logger/logger.dart';
 
 class PromoDetailsController extends GetxController {
   //TODO: Implement PromoDetailsController
@@ -35,18 +36,16 @@ class PromoDetailsController extends GetxController {
   }
 
   Future<void> _fetchPromos() async {
-    print('zzzz ${isMoreData.value}');
     try {
       if (isMoreData.value) {
-        print('zzzz');
         final promoDataResponse = await PromoRepository.fetchVisitors();
 
         if (promoDataResponse.length < 10) {
           isMoreData.value = false;
-          print('No More Data');
+          MyLogger.printInfo('No More Data');
         }
 
-        print('Fetch Promo: ${promoDataResponse.length}');
+        MyLogger.printInfo('Fetch Promo: ${promoDataResponse.length}');
 
         promoDataResponse
             .sort((a, b) => a.product_name.compareTo(b.product_name));
