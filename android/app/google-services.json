@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "474540806298",
+    "project_id": "jollibee-f24c4",
+    "storage_bucket": "jollibee-f24c4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474540806298:android:fd024c39dd6e57a4e38f23",
+        "android_client_info": {
+          "package_name": "com.jollibee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEU11Ea1ZN705-DWzsHXOBjaeQrcelU_o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
