@@ -14,14 +14,9 @@ import '../global_variable/global_variable.dart';
 class SearchRepository {
   static Future<List<Marker>> getNearbyPlaces(
       String fastFoodName, String latitude, String longitude) async {
-    // String latitude = '10.2524';
-    // String longitude = '123.8392';
     String googleApiKey = "AIzaSyDNQDYD_Gf_z1nyammhkEPwOBeP_fP6VYc";
 
     List<Marker> listMarkers = [];
-
-    // Position _currentUserPosition = await Geolocator.getCurrentPosition(
-    //     desiredAccuracy: LocationAccuracy.high);
 
     var url = Uri.parse(
         'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$latitude,$longitude&radius=4000&types=restaurant&name=$fastFoodName&key=$googleApiKey');
