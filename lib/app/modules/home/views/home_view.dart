@@ -16,7 +16,7 @@ class HomeView extends GetView<HomeController> {
     final controller = Get.put(HomeController());
     var size = MediaQuery.of(context).size;
     var textTheme = Theme.of(context).textTheme;
-    print('update');
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('HomeView'),
@@ -91,28 +91,30 @@ class HomeView extends GetView<HomeController> {
                   margin: const EdgeInsets.only(top: 10),
                   width: size.width,
                   height: size.height * 0.40,
-                  child: PageView.builder(
-                    controller: controller.pageController,
-                    itemCount: controller.mainList.length,
-                    physics: const BouncingScrollPhysics(),
-                    onPageChanged: (int index) {
-                      controller.currentIndex.value = index;
-                    },
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          view(index, textTheme, size),
-                        ],
-                      );
-                    },
-                  ),
+                  child: Obx(() => PageView.builder(
+                        controller: controller.pageController,
+                        itemCount: controller.productList.length,
+                        physics: const BouncingScrollPhysics(),
+                        onPageChanged: (int index) {
+                          controller.currentIndex.value = index;
+                        },
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              view(index, textTheme, size),
+                            ],
+                          );
+                        },
+                      )),
                 ),
               ),
               Obx(() => Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
-                      controller.mainList.length,
-                      (index) => Container(
+                      controller.productList.length,
+                      (index) => AnimatedContainer(
+                        duration: Duration(seconds: 1),
+                        curve: Curves.easeInOutQuint,
                         margin: EdgeInsets.all(4),
                         height: controller.currentIndex.value == index ? 12 : 8,
                         width: controller.currentIndex.value == index ? 12 : 8,
@@ -191,9 +193,9 @@ class HomeView extends GetView<HomeController> {
                   padding: EdgeInsets.all(8),
                   width: size.width,
                   height: size.height * 1.23,
-                  child: GridView.builder(
+                  child: Obx(() => GridView.builder(
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: controller.mainList.length,
+                      itemCount: controller.productList.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
@@ -201,12 +203,13 @@ class HomeView extends GetView<HomeController> {
                         childAspectRatio: 0.80,
                       ),
                       itemBuilder: (context, index) {
-                        ProductPromosModel current = controller.mainList[index];
+                        final data = controller.productList[index];
+
                         return InkWell(
                           splashColor: Colors.blue.withOpacity(0.5),
                           onTap: () {},
                           child: Hero(
-                            tag: current.id,
+                            tag: data.id,
                             child: Column(
                               children: [
                                 Ink(
@@ -217,7 +220,7 @@ class HomeView extends GetView<HomeController> {
                                     borderRadius: BorderRadius.circular(3),
                                     image: DecorationImage(
                                       image: CachedNetworkImageProvider(
-                                          current.imageUrl),
+                                          data.image_url),
                                       fit: BoxFit.cover,
                                     ),
                                     boxShadow: const [
@@ -232,7 +235,7 @@ class HomeView extends GetView<HomeController> {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 2.0),
                                   child: Text(
-                                    current.name,
+                                    data.product_name,
                                     style: textTheme.bodyMedium,
                                   ),
                                 ),
@@ -246,7 +249,7 @@ class HomeView extends GetView<HomeController> {
                                         ),
                                         children: [
                                       TextSpan(
-                                        text: current.price.toString(),
+                                        text: data.price.toString(),
                                         style: textTheme.subtitle2?.copyWith(
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -256,7 +259,7 @@ class HomeView extends GetView<HomeController> {
                             ),
                           ),
                         );
-                      }),
+                      })),
                 ),
               ),
             ],
@@ -278,13 +281,13 @@ class HomeView extends GetView<HomeController> {
           }
           return Transform.rotate(
             angle: 3.14 * value,
-            child: card(controller.mainList[index], theme, size),
+            child: card(controller.productList[index], theme, size),
           );
         });
   }
 
   /// Page view Cards
-  Widget card(ProductPromosModel data, TextTheme theme, Size size) {
+  Widget card(Promo data, TextTheme theme, Size size) {
     return Padding(
       padding: const EdgeInsets.only(top: 15.0),
       child: Column(
@@ -300,7 +303,7 @@ class HomeView extends GetView<HomeController> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(3),
                   image: DecorationImage(
-                    image: CachedNetworkImageProvider(data.imageUrl),
+                    image: CachedNetworkImageProvider(data.image_url),
                     fit: BoxFit.cover,
                   ),
                   boxShadow: const [
@@ -316,7 +319,7 @@ class HomeView extends GetView<HomeController> {
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: Text(
-              data.name,
+              data.product_name,
               style: theme.bodyMedium,
             ),
           ),
