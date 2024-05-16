@@ -192,7 +192,7 @@ class HomeView extends GetView<HomeController> {
                   margin: const EdgeInsets.only(top: 10.0),
                   padding: EdgeInsets.all(8),
                   width: size.width,
-                  height: size.height * 1.23,
+                  height: size.height * 1.28,
                   child: Obx(() => GridView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: controller.productList.length,
@@ -200,7 +200,7 @@ class HomeView extends GetView<HomeController> {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         crossAxisSpacing: 10,
-                        childAspectRatio: 0.80,
+                        childAspectRatio: 0.55,
                       ),
                       itemBuilder: (context, index) {
                         final data = controller.productList[index];
@@ -208,55 +208,52 @@ class HomeView extends GetView<HomeController> {
                         return InkWell(
                           splashColor: Colors.blue.withOpacity(0.5),
                           onTap: () {},
-                          child: Hero(
-                            tag: data.id,
-                            child: Column(
-                              children: [
-                                Ink(
-                                  width: size.width * 0.5,
-                                  height: size.height * 0.2,
-                                  //margin: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(3),
-                                    image: DecorationImage(
-                                      image: CachedNetworkImageProvider(
-                                          data.image_url),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        offset: Offset(0, 4),
-                                        blurRadius: 4,
-                                        color: Color.fromARGB(61, 0, 0, 0),
-                                      )
-                                    ],
+                          child: Column(
+                            children: [
+                              Ink(
+                                width: size.width * 0.5,
+                                height: size.height * 0.3,
+                                //margin: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(3),
+                                  image: DecorationImage(
+                                    image: CachedNetworkImageProvider(
+                                        data.image_url),
+                                    fit: BoxFit.cover,
                                   ),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      offset: Offset(0, 4),
+                                      blurRadius: 4,
+                                      color: Color.fromARGB(61, 0, 0, 0),
+                                    )
+                                  ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 2.0),
-                                  child: Text(
-                                    data.product_name,
-                                    style: textTheme.bodyMedium,
-                                  ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 2.0),
+                                child: Text(
+                                  data.product_name,
+                                  style: textTheme.bodyMedium,
                                 ),
-                                RichText(
-                                    text: TextSpan(
-                                        text: "€",
-                                        style: textTheme.bodyMedium?.copyWith(
-                                          color: Colors.blue,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        children: [
-                                      TextSpan(
-                                        text: data.price.toString(),
-                                        style: textTheme.subtitle2?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      )
-                                    ])),
-                              ],
-                            ),
+                              ),
+                              RichText(
+                                  text: TextSpan(
+                                      text: "€",
+                                      style: textTheme.bodyMedium?.copyWith(
+                                        color: Colors.blue,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: [
+                                    TextSpan(
+                                      text: data.price.toString(),
+                                      style: textTheme.subtitle2?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  ])),
+                            ],
                           ),
                         );
                       })),

@@ -27,8 +27,8 @@ class _StoresViewState extends State<StoresView> {
         body: Obx(
           () => Stack(
             children: [
-              markers.value.isEmpty //|| controller.isLoading
-                  ? Center(child: CircularProgressIndicator())
+              controller.isCurrentLocationStatus //|| controller.isLoading
+                  ? const Center(child: CircularProgressIndicator())
                   : Stack(
                       children: [
                         GoogleMap(
@@ -60,20 +60,18 @@ class _StoresViewState extends State<StoresView> {
 
                             mapController = controllers;
                           },
-
-                          // onCameraMove: (CameraPosition cameraPositions) {
-                          //   controller.cameraPosition = cameraPositions;
-                          // },
                         ),
                         Positioned(
                           top: 10.0,
                           left: 10.0,
                           right: 10.0,
                           child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
                               child: Column(
                                 children: [
                                   TextFormField(
+                                    controller: controller.searchTextField,
                                     onChanged: (val) {
                                       if (val != '') {
                                         controller.searchInput.value = val;
@@ -85,7 +83,18 @@ class _StoresViewState extends State<StoresView> {
                                       filled: true,
                                       fillColor: Colors.white,
                                       hintText: 'Search',
-                                      prefixIcon: Icon(Icons.location_on),
+                                      prefixIcon: const Icon(Icons.location_on),
+                                      suffixIcon: IconButton(
+                                        onPressed: () {
+                                          controller.searchInput.value =
+                                              controller.searchTextField.text =
+                                                  '';
+                                        },
+                                        icon: const Icon(
+                                          Icons.close,
+                                          color: Colors.black,
+                                        ),
+                                      ),
                                       border: OutlineInputBorder(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
@@ -106,7 +115,7 @@ class _StoresViewState extends State<StoresView> {
                                                   e.geometry!.coordinates![0]);
                                               controller.searchInfo.value = [];
                                             },
-                                            leading: Icon(Icons.place),
+                                            leading: const Icon(Icons.place),
                                             title: Text(e.properties!.name!),
                                             // subtitle:
                                             //     Text(e.properties!.street!),
@@ -116,7 +125,7 @@ class _StoresViewState extends State<StoresView> {
                               )),
                         ),
                         if (controller.isLoading)
-                          Center(child: CircularProgressIndicator())
+                          const Center(child: CircularProgressIndicator())
                       ],
                     ),
             ],

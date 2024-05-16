@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:jollibee/app/models/product_promos_model.dart';
+import 'package:jollibee/app/utils/parallax_flow_delegate.dart';
 
 import '../../../global_variable/global_variable.dart';
 import '../controllers/promo_details_controller.dart';
@@ -111,6 +113,7 @@ import '../controllers/promo_details_controller.dart';
 
 class PromoDetailsView extends GetView<PromoDetailsController> {
   const PromoDetailsView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(PromoDetailsController());
@@ -131,23 +134,9 @@ class PromoDetailsView extends GetView<PromoDetailsController> {
                         itemBuilder: (context, index) {
                           final promo = promos[index];
 
-                          return ConstrainedBox(
-                            constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width,
-                              maxHeight: 200,
-                            ),
-                            child: CachedNetworkImage(
-                              imageUrl: promo.image_url,
-                              placeholder: (context, url) => Center(
-                                child: SizedBox(
-                                    height: 50,
-                                    width: 50,
-                                    child: CircularProgressIndicator()),
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                              fit: BoxFit.cover,
-                            ),
+                          return detailsPromoList(
+                            controller: controller,
+                            promo: promo,
                           );
                           // return ListTile(
                           //   leading: CachedNetworkImage(
@@ -168,6 +157,54 @@ class PromoDetailsView extends GetView<PromoDetailsController> {
                   ),
                 ],
               ),
+      ),
+    );
+  }
+}
+
+class detailsPromoList extends StatelessWidget {
+  const detailsPromoList({
+    super.key,
+    required this.controller,
+    required this.promo,
+  });
+
+  final PromoDetailsController controller;
+  final Promo promo;
+
+  @override
+  Widget build(BuildContext context) {
+    final GlobalKey backgroundImageKey = GlobalKey();
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20.0),
+      child: AspectRatio(
+        aspectRatio: 16 / 9,
+        child: Flow(
+          delegate: ParallaxFlowDelegate(
+            /// Access the scrollable widget
+            scrollable: Scrollable.of(context),
+
+            // Context of the list item
+            listItemContext: context,
+
+            // Pass the background image key
+            backgroundImageKey: backgroundImageKey,
+          ),
+          // Apply anti-aliasing to the clipping
+          clipBehavior: Clip.antiAlias,
+          children: [
+            CachedNetworkImage(
+              key: backgroundImageKey,
+              imageUrl: promo.image_url,
+              placeholder: (context, url) => Center(
+                child: SizedBox(
+                    height: 50, width: 50, child: CircularProgressIndicator()),
+              ),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+              fit: BoxFit.cover,
+            ),
+          ],
+        ),
       ),
     );
   }

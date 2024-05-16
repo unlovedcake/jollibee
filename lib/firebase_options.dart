@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
 /// Example:
@@ -15,6 +17,9 @@ import 'package:flutter/foundation.dart'
 /// );
 /// ```
 class DefaultFirebaseOptions {
+  static String androidApiKey = dotenv.env['ANDROID_API_KEY'] ?? '';
+  static String iosApiKey = dotenv.env['IOS_API_KEY'] ?? '';
+
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       return web;
@@ -53,16 +58,16 @@ class DefaultFirebaseOptions {
     measurementId: 'G-3PX7RVMPMX',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBEU11Ea1ZN705-DWzsHXOBjaeQrcelU_o',
+  static FirebaseOptions android = FirebaseOptions(
+    apiKey: androidApiKey,
     appId: '1:474540806298:android:fd024c39dd6e57a4e38f23',
     messagingSenderId: '474540806298',
     projectId: 'jollibee-f24c4',
     storageBucket: 'jollibee-f24c4.appspot.com',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDKXIXEP5KH21mDiJiM5bZzmCuwtCkcFXU',
+  static FirebaseOptions ios = FirebaseOptions(
+    apiKey: iosApiKey,
     appId: '1:474540806298:ios:e3652db1cf8d6570e38f23',
     messagingSenderId: '474540806298',
     projectId: 'jollibee-f24c4',
