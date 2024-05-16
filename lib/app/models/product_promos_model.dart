@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ProductPromosModel {
   final int id;
   final String imageUrl;
@@ -31,6 +33,17 @@ class Promo {
     required this.image_url,
     required this.price,
   });
+
+  factory Promo.fromFirestore(DocumentSnapshot doc) {
+    Map<String, dynamic> map = doc.data() as Map<String, dynamic>;
+    return Promo(
+      id: map['id'],
+      product_name: map['product_name'],
+      product_description: map['product_description'],
+      image_url: map['image_url'],
+      price: map['price'].toDouble(),
+    );
+  }
 
   // Convert a Promo object into a Map
   Map<String, dynamic> toMap() {

@@ -8,17 +8,18 @@ class PromosView extends GetView<PromosController> {
   const PromosView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(PromosController());
     return Scaffold(
       appBar: AppBar(
         title: const Text('PromosView'),
         centerTitle: true,
       ),
-      body: const Center(
-        child: Text(
-          'PromosView is working',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
+      body: Center(
+          child: OutlinedButton(
+              onPressed: () {
+                controller.currentLocation();
+              },
+              child: Text('Click'))),
     );
   }
 }

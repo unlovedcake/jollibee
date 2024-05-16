@@ -11,6 +11,7 @@ class PromoDetailsController extends GetxController {
   //TODO: Implement PromoDetailsController
 
   final scrollController = ScrollController();
+
   @override
   void onInit() {
     super.onInit();

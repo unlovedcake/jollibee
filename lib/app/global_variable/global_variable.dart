@@ -7,6 +7,7 @@ import '../models/nearby_model.dart';
 final isMoreData = true.obs;
 final promos = <Promo>[].obs;
 final markers = <Marker>[].obs;
+GoogleMapController? mapController;
 
 List<Polyline> polylines = [];
 NearbyPlacesResponse nearbyPlacesResponse = NearbyPlacesResponse();
